@@ -7,10 +7,10 @@ import { MagnifyingGlassIcon, BellIcon } from "@heroicons/react/24/solid";
 
 const links = [
   { name: "Home", uri: "/" },
-  { name: "Tv Shows", uri: "/home" },
-  { name: "Movies", uri: "/home" },
-  { name: "New & Popular", uri: "/home" },
-  { name: "My List", uri: "/home" },
+  { name: "TV Shows", uri: "/tv-shows" },
+  { name: "Movies", uri: "/movies" },
+  { name: "New & Popular", uri: "/new-and-popular" },
+  { name: "My List", uri: "/my-list" },
 ];
 
 const Navbar = () => {

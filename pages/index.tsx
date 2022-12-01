@@ -1,9 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 
 // components import
-import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Row from "@/components/Row";
 
@@ -39,7 +37,6 @@ const Home: NextPage<HomeProps> = ({
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
 
-      <Navbar />
       <main>
         <Hero movies={netflixOriginals} />
         <div className="w-full space-y-10">
