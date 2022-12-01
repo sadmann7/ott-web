@@ -19,8 +19,6 @@ const Row = ({ title, movies }: RowProps) => {
   const scrollToPoint = (direction: "left" | "right") => {
     if (!moviesRef.current) return;
 
-    console.log(moviesRef.current.scrollLeft);
-
     setIsScrolled(true);
     const { scrollLeft, clientWidth } = moviesRef.current;
     const offset =
@@ -34,15 +32,13 @@ const Row = ({ title, movies }: RowProps) => {
     <section aria-label="horizontally-scrollable row">
       {movies.length !== 0 && (
         <div className="space-y-2.5 w-[89vw] max-w-screen-2xl mx-auto">
-          <h2 className=" text-white/90 hover:text-white transition-colors text-base md:text-xl font-semibold ">
+          <h2 className="text-white/90 hover:text-white transition-colors text-base md:text-xl font-semibold ">
             {title ?? "-"}
           </h2>
-          <div className=" group relative">
+          <div className="group relative">
             <ChevronLeftIcon
               aria-label="scroll to right"
-              className={`${
-                isScrolled ? "block" : "hidden"
-              } w-7 aspect-square text-white absolute top-1/3 left-2 cursor-pointer opacity-0 hover:scale-125 group-hover:opacity-100 transition-all`}
+              className="z-10 w-8 aspect-square text-white absolute top-1/3 left-2 cursor-pointer opacity-0 hover:scale-110 active:scale-90 group-hover:opacity-100 transition-all"
               onClick={() => scrollToPoint("left")}
             />
             <div
@@ -70,7 +66,7 @@ const Row = ({ title, movies }: RowProps) => {
             </div>
             <ChevronRightIcon
               aria-label="scroll to left"
-              className="w-7 aspect-square text-white absolute top-1/3 right-2 cursor-pointer opacity-0 hover:scale-125 group-hover:opacity-100 transition-all"
+              className="z-10 w-8 aspect-square text-white absolute top-1/3 right-2 cursor-pointer opacity-0 hover:scale-110 active:scale-90 group-hover:opacity-100 transition-all"
               onClick={() => scrollToPoint("right")}
             />
           </div>

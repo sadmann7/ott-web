@@ -2,11 +2,14 @@ import { NextPage } from "next";
 import Head from "next/head";
 import React from "react";
 
+// components import
+import Layout from "@/components/Layout";
+
 const NewAndPopular: NextPage = () => {
   return (
-    <div>
+    <Layout>
       <Head>
-        <title>New & Popular | OTT-Web</title>
+        <title>New & Popular | OTT-Platform</title>
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
       <div className="min-h-screen flex flex-col items-center justify-center space-y-2">
@@ -17,7 +20,7 @@ const NewAndPopular: NextPage = () => {
           under construction, please visit later
         </p>
       </div>
-    </div>
+    </Layout>
   );
 };
 

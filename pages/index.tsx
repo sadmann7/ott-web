@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 
 // components import
+import Layout from "@/components/Layout";
 import Hero from "@/components/Hero";
 import Row from "@/components/Row";
 
@@ -31,9 +32,9 @@ const Home: NextPage<HomeProps> = ({
   trendingNow,
 }) => {
   return (
-    <div>
+    <Layout>
       <Head>
-        <title>OTT-Web</title>
+        <title>OTT-Platform</title>
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
 
@@ -49,7 +50,7 @@ const Home: NextPage<HomeProps> = ({
           <Row title="Documentaries" movies={documentaries} />
         </div>
       </main>
-    </div>
+    </Layout>
   );
 };
 
