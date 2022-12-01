@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 // images import
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
 // types import
 import { Movie } from "@/types/types";
-import Image from "next/image";
 
 type RowProps = {
   title: string;
@@ -31,7 +31,7 @@ const Row = ({ title, movies }: RowProps) => {
   };
 
   return (
-    <section aria-label="scrollable row">
+    <section aria-label="horizontally-scrollable row">
       {movies.length !== 0 && (
         <div className="space-y-2.5 w-[89vw] max-w-screen-2xl mx-auto">
           <h2 className=" text-white/90 hover:text-white transition-colors text-base md:text-xl font-semibold ">
@@ -50,17 +50,22 @@ const Row = ({ title, movies }: RowProps) => {
               className="overflow-x-scroll scrollbar-thin flex space-x-2"
             >
               {movies.map((movie) => (
-                <Image
+                <div
                   key={movie.id}
-                  src={`https://image.tmdb.org/t/p/w500/${
-                    movie.backdrop_path ?? movie.poster_path
-                  }`}
-                  alt={movie.title ?? "poster"}
-                  width={250}
-                  height={100}
-                  className="w-full aspect-video object-cover rounded-sm"
-                  loading="lazy"
-                />
+                  className="relative w-full min-w-[15rem] h-28 aspect-square rounded-sm overflow-hidden cursor-pointer hover:scale-105 transition-transform"
+                >
+                  <Image
+                    src={`https://image.tmdb.org/t/p/w500/${
+                      movie.backdrop_path ?? movie.poster_path
+                    }`}
+                    alt={movie.title ?? "poster"}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 
+                    (max-width: 1200px) 50vw, 33vw"
+                    loading="lazy"
+                    className="object-cover"
+                  />
+                </div>
               ))}
             </div>
             <ChevronRightIcon

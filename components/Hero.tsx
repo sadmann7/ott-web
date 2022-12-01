@@ -21,11 +21,11 @@ const Hero = ({ movies }: HeroProps) => {
   }, [movies]);
 
   return (
-    <section aria-label="hero section" className="w-full pt-10 pb-24">
+    <section aria-label="hero section" className="w-full pt-10 pb-24 ">
       {movie && (
         <div className="w-[89vw] max-w-screen-2xl mx-auto">
-          <div className="absolute inset-0 -z-10 w-full h-[70vh]">
-            <div className="absolute inset-0 bg-black/75 z-20 w-full h-full" />
+          <div className="absolute inset-0 -z-10 w-full h-screen">
+            <div className="z-10 absolute inset-0 w-full h-full bg-black/75 bg-gradient-body from-gray-900/10 to-[#010511]" />
             <Image
               src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}
               alt={movie?.title ?? "poster"}

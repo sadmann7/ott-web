@@ -31,13 +31,13 @@ const Home: NextPage<HomeProps> = ({
   trendingNow,
 }) => {
   return (
-    <div className="h-screen bg-gradient-body from-gray-900/10 to-[#010511]">
+    <div>
       <Head>
         <title>OTT-Web</title>
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="mb-16">
         <Hero movies={netflixOriginals} />
         <div className="w-full space-y-10">
           <Row title="Trending Now" movies={trendingNow} />
