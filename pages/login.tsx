@@ -8,7 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 // hooks import
 import { useAuth } from "@/contexts/AuthProvider";
 
-const Signin: NextPage = () => {
+const Login: NextPage = () => {
   return (
     <div>
       <Head>
@@ -40,7 +40,7 @@ const Signin: NextPage = () => {
               <h1 className="text-white text-2xl md:text-3xl font-bold">
                 Sign In
               </h1>
-              <SigninForm />
+              <LoginForm />
               <p className="mt-5 text-content text-sm md:text-base font-medium">
                 Don't have an account?{" "}
                 <Link
@@ -59,7 +59,7 @@ const Signin: NextPage = () => {
   );
 };
 
-export default Signin;
+export default Login;
 
 const schema = {
   email: {
@@ -79,7 +79,7 @@ type Inputs = {
   password: string;
 };
 
-const SigninForm = () => {
+const LoginForm = () => {
   const { signin } = useAuth();
   const {
     register,

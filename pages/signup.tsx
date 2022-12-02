@@ -16,7 +16,7 @@ const Signup: NextPage = () => {
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
       <main>
-        <section aria-label="login" className="min-h-screen">
+        <section aria-label="signup" className="min-h-screen">
           <Image
             src="/images/login-background.webp"
             alt="login background"
@@ -93,7 +93,7 @@ const SignupForm = () => {
 
   return (
     <form
-      aria-label="login-form"
+      aria-label="signup-form"
       className="mt-8 grid gap-4"
       onSubmit={handleSubmit(onSubmit)}
     >
