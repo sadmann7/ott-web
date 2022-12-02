@@ -1,11 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import Image from "next/image";
 
 // images import
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
-// types import
+// stores, and types import
+import { useModalStore } from "@/stores/useModalStore";
 import { Movie } from "@/types/types";
+import Modal from "./Modal";
 
 type RowProps = {
   title: string;
@@ -28,6 +30,8 @@ const Row = ({ title, movies }: RowProps) => {
     moviesRef.current.scrollTo({ left: offset, behavior: "smooth" });
   };
 
+  const toggleModal = useModalStore((state) => state.toggleModal);
+
   return (
     <section aria-label="horizontally-scrollable row">
       {movies.length !== 0 && (
@@ -48,22 +52,9 @@ const Row = ({ title, movies }: RowProps) => {
               className="overflow-x-scroll scrollbar-thin flex space-x-2"
             >
               {movies.map((movie) => (
-                <div
-                  key={movie.id}
-                  className="relative w-full min-w-[15rem] h-28 aspect-square rounded-sm overflow-hidden cursor-pointer hover:scale-105 transition-transform"
-                >
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w500/${
-                      movie.backdrop_path ?? movie.poster_path
-                    }`}
-                    alt={movie.title ?? "poster"}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 
-                    (max-width: 1200px) 50vw, 33vw"
-                    loading="lazy"
-                    className="object-cover"
-                  />
-                </div>
+                <Fragment key={movie.id}>
+                  <MoviePoster movie={movie} toggleModal={toggleModal} />
+                </Fragment>
               ))}
             </div>
             <ChevronRightIcon
@@ -79,3 +70,29 @@ const Row = ({ title, movies }: RowProps) => {
 };
 
 export default Row;
+
+type MoviePosterProps = {
+  movie: Movie;
+  toggleModal: () => void;
+};
+
+const MoviePoster = ({ movie, toggleModal }: MoviePosterProps) => {
+  return (
+    <div
+      className="relative w-full min-w-[15rem] h-28 aspect-square rounded-sm overflow-hidden cursor-pointer hover:scale-105 transition-transform"
+      onClick={toggleModal}
+    >
+      <Image
+        src={`https://image.tmdb.org/t/p/w500/${
+          movie.backdrop_path ?? movie.poster_path
+        }`}
+        alt={movie.title ?? "poster"}
+        fill
+        sizes="(max-width: 768px) 100vw, 
+      (max-width: 1200px) 50vw, 33vw"
+        loading="lazy"
+        className="object-cover"
+      />
+    </div>
+  );
+};

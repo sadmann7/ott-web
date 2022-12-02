@@ -1,8 +1,8 @@
-import React from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 // hooks import

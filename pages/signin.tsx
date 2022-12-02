@@ -1,14 +1,14 @@
-import React from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 // hooks import
 import { useAuth } from "@/contexts/AuthProvider";
 
-const Login: NextPage = () => {
+const Signin: NextPage = () => {
   return (
     <div>
       <Head>
@@ -40,7 +40,7 @@ const Login: NextPage = () => {
               <h1 className="text-white text-2xl md:text-3xl font-bold">
                 Sign In
               </h1>
-              <LoginForm />
+              <SigninForm />
               <p className="mt-5 text-content text-sm md:text-base font-medium">
                 Don't have an account?{" "}
                 <Link
@@ -59,7 +59,7 @@ const Login: NextPage = () => {
   );
 };
 
-export default Login;
+export default Signin;
 
 const schema = {
   email: {
@@ -79,7 +79,7 @@ type Inputs = {
   password: string;
 };
 
-const LoginForm = () => {
+const SigninForm = () => {
   const { signin } = useAuth();
   const {
     register,

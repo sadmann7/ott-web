@@ -46,14 +46,14 @@ const Hero = ({ movies }: HeroProps) => {
             <div className="pt-1.5 flex items-center space-x-2">
               <button
                 aria-label="play video"
-                className="px-3 py-1 bg-white hover:opacity-75 transition-opacity rounded-sm flex items-center space-x-1.5 text-black text-sm md:text-base font-bold whitespace-nowrap"
+                className="px-3 py-1 bg-white rounded-sm flex items-center space-x-1.5 text-black text-sm md:text-base font-bold whitespace-nowrap hover:opacity-75 active:opacity-100 transition-opacity"
               >
                 <PlayIcon className="w-4 aspect-square" />
                 <p>Play</p>
               </button>
               <button
                 aria-label="show more info"
-                className="px-3 py-1 bg-gray-400/40 hover:opacity-75 transition-opacity rounded-sm flex items-center space-x-1.5 text-white text-sm md:text-base font-medium whitespace-nowrap"
+                className="px-3 py-1 bg-gray-400/40 rounded-sm flex items-center space-x-1.5 text-white text-sm md:text-base font-medium whitespace-nowrap hover:opacity-75 active:opacity-100 transition-opacity"
               >
                 <InformationCircleIcon className="w-4 aspect-square" />
                 <p>More Info</p>

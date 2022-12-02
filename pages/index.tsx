@@ -1,15 +1,17 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useState } from "react";
 
 // components import
 import Layout from "@/components/Layout";
 import Hero from "@/components/Hero";
 import Row from "@/components/Row";
-import Loader from "@/components/Loader";
+import Modal from "@/components/Modal";
 
-// requests, hooks, and types import
+// requests, hooks, stores, and types import
 import requests from "@/utils/requests";
 import { useAuth } from "@/contexts/AuthProvider";
+import { useModalStore } from "@/stores/useModalStore";
 import { Movie } from "@/types/types";
 
 type HomeProps = {
@@ -34,6 +36,8 @@ const Home: NextPage<HomeProps> = ({
   trendingNow,
 }) => {
   const { isLoading } = useAuth();
+  const isOpen = useModalStore((state) => state.isOpen);
+  const toggleModal = useModalStore((state) => state.toggleModal);
 
   if (isLoading) return null;
 
@@ -44,6 +48,7 @@ const Home: NextPage<HomeProps> = ({
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
 
+      {isOpen && <Modal isOpen={isOpen} toggleModal={toggleModal} />}
       <main className="mb-16">
         <Hero movies={netflixOriginals} />
         <div className="w-full space-y-10">
