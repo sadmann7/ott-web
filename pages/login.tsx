@@ -1,8 +1,8 @@
+import React from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 const Login: NextPage = () => {
@@ -37,7 +37,7 @@ const Login: NextPage = () => {
               <h1 className="text-white text-2xl md:text-3xl font-bold">
                 Sign In
               </h1>
-              <SigninForm />
+              <LoginForm />
               <p className="mt-5 text-content text-sm md:text-base font-medium">
                 Don't have an account?{" "}
                 <Link
@@ -69,7 +69,7 @@ type Inputs = {
   password: string;
 };
 
-const SigninForm = () => {
+const LoginForm = () => {
   const {
     register,
     handleSubmit,
