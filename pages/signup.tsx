@@ -80,7 +80,7 @@ type Inputs = {
 };
 
 const SignupForm = () => {
-  const { signup } = useAuth();
+  const { signup, isLoading } = useAuth();
   const {
     register,
     handleSubmit,
@@ -137,7 +137,7 @@ const SignupForm = () => {
         )}
       </div>
       <button className="mt-5 py-3 rounded-md bg-accent hover:opacity-90 transition-opacity text-sm md:text-base font-bold">
-        Sign up
+        {isLoading ? "Loading..." : " Sign up"}
       </button>
     </form>
   );
