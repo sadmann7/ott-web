@@ -44,7 +44,7 @@ const Signup: NextPage = () => {
               <p className="mt-5 text-content text-sm md:text-base font-medium">
                 Already have an account?{" "}
                 <Link
-                  href="/login"
+                  href="/signin"
                   className="text-white hover:underline underline-offset-1"
                 >
                   Log in now
@@ -86,6 +86,7 @@ const SignupForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ mode: "all" });
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
     signup(data.email, data.password);

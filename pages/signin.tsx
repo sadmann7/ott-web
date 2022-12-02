@@ -8,7 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 // hooks import
 import { useAuth } from "@/contexts/AuthProvider";
 
-const Login: NextPage = () => {
+const Signin: NextPage = () => {
   return (
     <div>
       <Head>
@@ -16,7 +16,7 @@ const Login: NextPage = () => {
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
       <main>
-        <section aria-label="login" className="min-h-screen">
+        <section aria-label="signin" className="min-h-screen">
           <Image
             src="/images/login-background.webp"
             alt="login background"
@@ -40,7 +40,7 @@ const Login: NextPage = () => {
               <h1 className="text-white text-2xl md:text-3xl font-bold">
                 Sign In
               </h1>
-              <LoginForm />
+              <SigninForm />
               <p className="mt-5 text-content text-sm md:text-base font-medium">
                 Don't have an account?{" "}
                 <Link
@@ -59,7 +59,7 @@ const Login: NextPage = () => {
   );
 };
 
-export default Login;
+export default Signin;
 
 const schema = {
   email: {
@@ -79,13 +79,14 @@ type Inputs = {
   password: string;
 };
 
-const LoginForm = () => {
+const SigninForm = () => {
   const { signin } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ mode: "all" });
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
     signin(data.email, data.password);
@@ -93,7 +94,7 @@ const LoginForm = () => {
 
   return (
     <form
-      aria-label="login-form"
+      aria-label="signin-form"
       className="mt-8 grid gap-4"
       onSubmit={handleSubmit(onSubmit)}
     >

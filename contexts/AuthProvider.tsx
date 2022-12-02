@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         // User is signed out
         setUser(null);
         setIsLoading(true);
-        router.push("/login");
+        router.push("/signin");
       }
       setIsInitialLoading(false);
     });
