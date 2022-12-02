@@ -5,9 +5,11 @@ import Head from "next/head";
 import Layout from "@/components/Layout";
 import Hero from "@/components/Hero";
 import Row from "@/components/Row";
+import Loader from "@/components/Loader";
 
-// requests and types import
+// requests, hooks, and types import
 import requests from "@/utils/requests";
+import { useAuth } from "@/contexts/AuthProvider";
 import { Movie } from "@/types/types";
 
 type HomeProps = {
@@ -31,6 +33,10 @@ const Home: NextPage<HomeProps> = ({
   topRated,
   trendingNow,
 }) => {
+  const { isLoading } = useAuth();
+
+  if (isLoading) return <Loader />;
+
   return (
     <Layout>
       <Head>

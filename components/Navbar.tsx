@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 // images import
 import { MagnifyingGlassIcon, BellIcon } from "@heroicons/react/24/solid";
 
+// hooks import
+import { useAuth } from "@/contexts/AuthProvider";
+
 const links = [
   { name: "Home", uri: "/" },
   { name: "TV Shows", uri: "/tv-shows" },
@@ -23,6 +26,8 @@ const Navbar = () => {
     window.addEventListener("scroll", changeBgColor);
     return () => window.removeEventListener("scroll", changeBgColor);
   }, [isScrolled]);
+
+  const { signout } = useAuth();
 
   return (
     <section
@@ -52,14 +57,15 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="flex items-center space-x-5">
-          <MagnifyingGlassIcon className="w-5 aspect-square text-white" />
-          <BellIcon className="w-5 aspect-square text-white" />
+          <MagnifyingGlassIcon className="w-5 aspect-square text-white cursor-pointer hover:opacity-75 active:opacity-100 transition-opacity" />
+          <BellIcon className="w-5 aspect-square text-white cursor-pointer hover:opacity-75 active:opacity-100 transition-opacity" />
           <Image
             src="/images/who-is-watching.webp"
             alt="who is watching"
             width={755}
             height={736}
-            className="w-7 h-auto rounded-sm"
+            className="w-7 h-auto rounded-sm cursor-pointer hover:opacity-75 active:opacity-100 transition-opacity"
+            onClick={signout}
           />
         </div>
       </nav>

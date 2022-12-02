@@ -5,6 +5,7 @@ const ToastWrapper = () => {
   return (
     <ToastContainer
       position="top-right"
+      limit={1}
       autoClose={5000}
       hideProgressBar={false}
       newestOnTop={false}

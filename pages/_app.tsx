@@ -8,7 +8,7 @@ import { AuthProvider } from "@/contexts/AuthProvider";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
       <ToastWrapper />
     </AuthProvider>
   );

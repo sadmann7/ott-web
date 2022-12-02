@@ -17,11 +17,13 @@ import { auth } from "@/auth/firebase";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { formatError } from "@/utils/format";
 
 type Auth = {
   user: User | null;
   signup: (email: string, password: string) => Promise<void>;
   signin: (email: string, password: string) => Promise<void>;
+  signout: () => Promise<void>;
   error: string | null;
   isLoading: boolean;
 };
@@ -30,6 +32,7 @@ const AuthContext = createContext<Auth>({
   user: null,
   signup: async () => {},
   signin: async () => {},
+  signout: async () => {},
   error: null,
   isLoading: false,
 });
@@ -43,10 +46,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const persist = onAuthStateChanged(auth, (user) => {
+      setIsLoading(true);
+
       if (user) {
         setUser(user);
         setIsLoading(false);
-        // ...
       } else {
         // User is signed out
         setUser(null);
@@ -68,14 +72,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(user);
         router.push("/");
         setIsLoading(false);
-        toast("Successfully signed up.");
+        toast.success("Successfully signed up.", { toastId: "signupSuccess" });
       })
       .catch((e) => {
-        const errorCode = e.code;
-        const errorMessage = e.message;
-        console.log(errorMessage);
+        const errorMessage = formatError(e.message);
         setError(errorMessage);
-        toast(error);
+        toast.error(error, { toastId: "signupError" });
       })
       .finally(() => setIsLoading(false));
   };
@@ -90,14 +92,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(user);
         router.push("/");
         setIsLoading(false);
-        toast("Successfully signed in.");
+        toast.success("Successfully signed in.", { toastId: "signinSuccess" });
       })
       .catch((e) => {
-        const errorCode = e.code;
-        const errorMessage = e.message;
-        console.log(errorMessage);
+        const errorMessage = formatError(e.message);
         setError(errorMessage);
-        toast(error);
+        toast.error(error, { toastId: "signinError" });
       })
       .finally(() => setIsLoading(false));
   };
@@ -113,17 +113,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       .catch((e) => {
         // An error happened.
-        const errorCode = e.code;
-        const errorMessage = e.message;
-        console.log(errorMessage);
+        const errorMessage = formatError(e.message);
         setError(errorMessage);
-        toast(error);
+        toast.error(error, { toastId: "signoutError" });
       })
       .finally(() => setIsLoading(false));
   };
 
   const memoedValue = useMemo(
-    () => ({ user, signup, signin, signOut, isLoading, error }),
+    () => ({
+      user,
+      signup,
+      signin,
+      signout,
+      isLoading,
+      error,
+    }),
     [user, isLoading, error]
   );
 

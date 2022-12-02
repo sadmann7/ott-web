@@ -5,11 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 
+// hooks import
+import { useAuth } from "@/contexts/AuthProvider";
+
 const Login: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Login | OTT-Platform</title>
+        <title>Sign In | OTT-Platform</title>
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
       <main>
@@ -58,10 +61,17 @@ const Login: NextPage = () => {
 
 export default Login;
 
-const schemaEmail = {
-  value:
-    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-  message: "Please enter a valid email.",
+const schema = {
+  email: {
+    value:
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
+    message: "Please enter a valid email.",
+  },
+  password: {
+    value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+    message:
+      "Your password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.",
+  },
 };
 
 type Inputs = {
@@ -70,6 +80,7 @@ type Inputs = {
 };
 
 const LoginForm = () => {
+  const { signin } = useAuth();
   const {
     register,
     handleSubmit,
@@ -77,6 +88,7 @@ const LoginForm = () => {
   } = useForm<Inputs>({ mode: "all" });
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
+    signin(data.email, data.password);
   };
 
   return (
@@ -89,8 +101,11 @@ const LoginForm = () => {
         <input
           type="text"
           {...register("email", {
-            required: schemaEmail.message,
-            pattern: { value: schemaEmail.value, message: schemaEmail.message },
+            required: schema.email.message,
+            pattern: {
+              value: schema.email.value,
+              message: schema.email.message,
+            },
           })}
           placeholder="Email"
           className="px-4 py-3 bg-[#333] focus:bg-[#454545] rounded-md border-none focus:ring-orange-400 text-sm md:text-base placeholder:text-gray-300/90"
@@ -104,15 +119,19 @@ const LoginForm = () => {
       <div className="grid gap-1.5">
         <input
           type="password"
-          {...register("password", { required: true })}
-          minLength={4}
-          maxLength={60}
+          {...register("password", {
+            required: true,
+            pattern: {
+              value: schema.password.value,
+              message: schema.password.message,
+            },
+          })}
           placeholder="Password"
           className="px-4 py-3 bg-[#333] focus:bg-[#454545] rounded-md border-none focus:ring-orange-400 text-sm md:text-base placeholder:text-gray-300/90 transition-colors"
         />
-        {errors.email && (
+        {errors.password && (
           <span className="text-orange-400 text-xs md:text-sm">
-            Your password must contain between 4 and 60 characters.
+            {errors.password.message}
           </span>
         )}
       </div>
