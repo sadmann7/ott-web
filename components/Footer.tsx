@@ -26,29 +26,23 @@ const Footer = () => {
       className="text-content border-t-8 border-t-[#222222]"
     >
       <div className="w-[75vw] max-w-screen-lg mx-auto py-10">
-        <p className="text-sm md:text-base font-medium">
+        <p className="text-sm md:text-base font-medium hover:underline cursor-pointer">
           Questions? Contact us.
         </p>
         <ul className="my-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
           {links.map((link, i) =>
             link.isExternal ? (
-              <li key={i}>
-                <a className="text-xs md:text-sm" href={link.uri}>
-                  {link.lable}
-                </a>
+              <li key={i} className="text-xs md:text-sm hover:underline">
+                <a href={link.uri}>{link.lable}</a>
               </li>
             ) : (
-              <li key={i}>
-                <Link href={link.uri} className="text-xs md:text-sm">
-                  {link.lable}
-                </Link>
+              <li key={i} className="text-xs md:text-sm hover:underline">
+                <Link href={link.uri}>{link.lable}</Link>
               </li>
             )
           )}
         </ul>
-        <Link href="/" className="text-xs md:text-sm">
-          Netflix Bangladesh
-        </Link>
+        <p className="text-xs md:text-sm">Netflix Bangladesh</p>
       </div>
     </footer>
   );

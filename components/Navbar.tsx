@@ -44,13 +44,16 @@ const Navbar = () => {
               alt="netflix"
               width={1024}
               height={276.74}
-              className="w-28 h-auto object-cover"
+              className="w-28 h-auto object-cover hover:opacity-75 active:opacity-100 transition-opacity"
               priority
             />
           </Link>
           <ul className="hidden md:flex items-center justify-between gap-5">
             {links.map((link, i) => (
-              <li key={i} className="text-sm md:text-base">
+              <li
+                key={i}
+                className="text-sm md:text-base hover:opacity-75 active:opacity-100 transition-opacity"
+              >
                 <Link href={link.uri}>{link.name}</Link>
               </li>
             ))}

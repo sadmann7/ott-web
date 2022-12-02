@@ -14,12 +14,12 @@ type RowProps = {
 
 const Row = ({ title, movies }: RowProps) => {
   const moviesRef = useRef<HTMLDivElement>(null);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrollable, setIsScrollable] = useState(false);
 
   const scrollToPoint = (direction: "left" | "right") => {
     if (!moviesRef.current) return;
 
-    setIsScrolled(true);
+    setIsScrollable(true);
     const { scrollLeft, clientWidth } = moviesRef.current;
     const offset =
       direction === "left"
@@ -38,7 +38,9 @@ const Row = ({ title, movies }: RowProps) => {
           <div className="group relative">
             <ChevronLeftIcon
               aria-label="scroll to right"
-              className="z-10 w-8 aspect-square text-white absolute top-1/3 left-2 cursor-pointer opacity-0 hover:scale-110 active:scale-90 group-hover:opacity-100 transition-all"
+              className={`${
+                isScrollable ? "block" : "hidden"
+              } z-10 w-8 aspect-square text-white absolute top-1/3 left-2 cursor-pointer opacity-0 hover:scale-110 active:scale-90 group-hover:opacity-100 transition-all`}
               onClick={() => scrollToPoint("left")}
             />
             <div

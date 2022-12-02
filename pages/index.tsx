@@ -35,7 +35,7 @@ const Home: NextPage<HomeProps> = ({
 }) => {
   const { isLoading } = useAuth();
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return null;
 
   return (
     <Layout>
