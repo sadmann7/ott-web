@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef, Fragment } from "react";
 import Image from "next/image";
 
-// images import
+// images, stores, and types import
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-
-// stores, and types import
 import { useModalStore } from "@/stores/useModalStore";
+import { useMovieStore } from "@/stores/useMovieStore";
 import { Movie } from "@/types/types";
-import Modal from "./Modal";
 
 type RowProps = {
   title: string;
@@ -30,7 +28,13 @@ const Row = ({ title, movies }: RowProps) => {
     moviesRef.current.scrollTo({ left: offset, behavior: "smooth" });
   };
 
-  const toggleModal = useModalStore((state) => state.toggleModal);
+  const { toggleModal } = useModalStore((state) => state);
+  const { setMovie } = useMovieStore((state) => state);
+
+  const openModal = (movie: Movie) => {
+    toggleModal();
+    setMovie(movie);
+  };
 
   return (
     <section aria-label="horizontally-scrollable row">
@@ -52,9 +56,23 @@ const Row = ({ title, movies }: RowProps) => {
               className="overflow-x-scroll scrollbar-thin flex space-x-2"
             >
               {movies.map((movie) => (
-                <Fragment key={movie.id}>
-                  <MoviePoster movie={movie} toggleModal={toggleModal} />
-                </Fragment>
+                <div
+                  key={movie.id}
+                  className="relative w-full min-w-[15rem] h-28 aspect-square rounded-sm overflow-hidden cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => openModal(movie)}
+                >
+                  <Image
+                    src={`https://image.tmdb.org/t/p/w500/${
+                      movie.backdrop_path ?? movie.poster_path
+                    }`}
+                    alt={movie.title ?? "poster"}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 
+                    (max-width: 1200px) 50vw, 33vw"
+                    loading="lazy"
+                    className="object-cover"
+                  />
+                </div>
               ))}
             </div>
             <ChevronRightIcon
@@ -70,29 +88,3 @@ const Row = ({ title, movies }: RowProps) => {
 };
 
 export default Row;
-
-type MoviePosterProps = {
-  movie: Movie;
-  toggleModal: () => void;
-};
-
-const MoviePoster = ({ movie, toggleModal }: MoviePosterProps) => {
-  return (
-    <div
-      className="relative w-full min-w-[15rem] h-28 aspect-square rounded-sm overflow-hidden cursor-pointer hover:scale-105 transition-transform"
-      onClick={toggleModal}
-    >
-      <Image
-        src={`https://image.tmdb.org/t/p/w500/${
-          movie.backdrop_path ?? movie.poster_path
-        }`}
-        alt={movie.title ?? "poster"}
-        fill
-        sizes="(max-width: 768px) 100vw, 
-      (max-width: 1200px) 50vw, 33vw"
-        loading="lazy"
-        className="object-cover"
-      />
-    </div>
-  );
-};

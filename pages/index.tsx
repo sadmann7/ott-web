@@ -36,8 +36,7 @@ const Home: NextPage<HomeProps> = ({
   trendingNow,
 }) => {
   const { isLoading } = useAuth();
-  const isOpen = useModalStore((state) => state.isOpen);
-  const toggleModal = useModalStore((state) => state.toggleModal);
+  const { isOpen, toggleModal } = useModalStore((state) => state);
 
   if (isLoading) return null;
 
