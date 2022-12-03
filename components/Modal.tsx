@@ -1,10 +1,11 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import ReactPlayer from "react-player";
 
 // images. stores, and types import
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useMovieStore } from "@/stores/useMovieStore";
-import { Movie } from "@/types/types";
+import { Genre, MovieWithVideo, Result } from "@/types/types";
 
 type ModalProps = {
   isOpen: boolean;
@@ -13,16 +14,46 @@ type ModalProps = {
 
 const Modal = ({ isOpen, toggleModal }: ModalProps) => {
   const { movie, setMovie } = useMovieStore((state) => state);
-  console.log(movie);
+  const [trailer, setTrailer] = useState("");
+  const [genres, setGenres] = useState<Genre[]>([]);
 
   const closeModal = () => {
     toggleModal();
     setMovie(null);
   };
 
+  useEffect(() => {
+    if (!movie) return;
+
+    const getMovie = async () => {
+      try {
+        const data: MovieWithVideo = await fetch(
+          `https://api.themoviedb.org/3/${
+            movie?.media_type === "tv" ? "tv" : "movie"
+          }/${movie?.id}?api_key=${
+            process.env.NEXT_PUBLIC_API_KEY
+          }&language=en-US&append_to_response=videos`
+        ).then((res) => res.json());
+
+        if (data?.videos) {
+          const trailerIndex = data.videos.results.findIndex(
+            (item: Result) => item.type === "Trailer"
+          );
+          setTrailer(data.videos?.results[trailerIndex]?.key);
+        }
+        if (data?.genres) {
+          setGenres(data.genres);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getMovie();
+  }, [movie]);
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={() => closeModal()}>
+      <Dialog as="div" className="relative z-10" onClose={closeModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -48,9 +79,9 @@ const Modal = ({ isOpen, toggleModal }: ModalProps) => {
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <button
                   type="button"
-                  aria-label="open modal"
+                  aria-label="close modal"
                   className="absolute right-4 flex items-center p-1 rounded-full bg-gray-500 hover:bg-gray-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  onClick={() => closeModal()}
+                  onClick={closeModal}
                 >
                   <XMarkIcon
                     aria-hidden="true"
@@ -64,11 +95,13 @@ const Modal = ({ isOpen, toggleModal }: ModalProps) => {
                   {movie?.title ?? movie?.name}
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
-                  </p>
+                  <p className="text-sm text-gray-500">{movie?.overview}</p>
                 </div>
+                <ReactPlayer
+                  url={`https://www.youtube.com/watch?v=${trailer}`}
+                  width="100%"
+                  height="100%"
+                />
               </Dialog.Panel>
             </Transition.Child>
           </div>
