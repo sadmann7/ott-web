@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
 
 // components import
 import Layout from "@/components/Layout";
@@ -47,8 +46,8 @@ const Home: NextPage<HomeProps> = ({
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
 
-      {isOpen && <Modal isOpen={isOpen} toggleModal={toggleModal} />}
       <main className="mb-16">
+        {isOpen && <Modal isOpen={isOpen} toggleModal={toggleModal} />}
         <Hero movies={netflixOriginals} />
         <div className="w-full space-y-10">
           <Row title="Trending Now" movies={trendingNow} />

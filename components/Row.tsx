@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useModalStore } from "@/stores/useModalStore";
 import { useMovieStore } from "@/stores/useMovieStore";
+
 import { Movie } from "@/types/types";
 
 type RowProps = {

@@ -1,11 +1,19 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/lazy";
 
 // images. stores, and types import
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import {
+  PauseIcon,
+  PlayIcon,
+  PlusIcon,
+  SpeakerWaveIcon,
+  SpeakerXMarkIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
 import { useMovieStore } from "@/stores/useMovieStore";
 import { Genre, MovieWithVideo, Result } from "@/types/types";
+import { HandThumbUpIcon } from "@heroicons/react/24/outline";
 
 type ModalProps = {
   isOpen: boolean;
@@ -16,6 +24,8 @@ const Modal = ({ isOpen, toggleModal }: ModalProps) => {
   const { movie, setMovie } = useMovieStore((state) => state);
   const [trailer, setTrailer] = useState("");
   const [genres, setGenres] = useState<Genre[]>([]);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const closeModal = () => {
     toggleModal();
@@ -53,7 +63,7 @@ const Modal = ({ isOpen, toggleModal }: ModalProps) => {
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog as="div" className="relative z-50" onClose={closeModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -76,32 +86,114 @@ const Modal = ({ isOpen, toggleModal }: ModalProps) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <button
-                  type="button"
-                  aria-label="close modal"
-                  className="absolute right-4 flex items-center p-1 rounded-full bg-gray-500 hover:bg-gray-600 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  onClick={closeModal}
-                >
-                  <XMarkIcon
-                    aria-hidden="true"
-                    className="w-4 aspect-square text-white"
+              <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-md bg-[#181818] text-left align-middle shadow-xl transition-all">
+                <div className="relative aspect-video">
+                  <button
+                    type="button"
+                    aria-label="close modal"
+                    className="z-50 absolute top-4 right-4 flex items-center p-1 rounded-full bg-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 hover:opacity-75 active:opacity-100 transition-opacity"
+                    onClick={closeModal}
+                  >
+                    <XMarkIcon
+                      aria-hidden="true"
+                      className="w-4 aspect-square text-white"
+                    />
+                  </button>
+                  <ReactPlayer
+                    style={{ position: "absolute", top: 0, left: 0 }}
+                    url={`https://www.youtube.com/watch?v=${trailer}`}
+                    width="100%"
+                    height="100%"
+                    muted={isMuted}
+                    playing={isPlaying}
                   />
-                </button>
-                <Dialog.Title
-                  as="h1"
-                  className="text-lg font-medium leading-6 text-gray-900"
-                >
-                  {movie?.title ?? movie?.name}
-                </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">{movie?.overview}</p>
+                  <div className="absolute bottom-6 px-6 w-full flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2.5">
+                      <button
+                        aria-label="control video playback"
+                        className="text-black text-sm md:text-base bg-white rounded-sm px-2.5 py-1 flex items-center gap-1 hover:opacity-90 active:opacity-100 transition-opacity"
+                        onClick={() => setIsPlaying(!isPlaying)}
+                      >
+                        {isPlaying ? (
+                          <>
+                            <PauseIcon
+                              aria-hidden="true"
+                              className="w-5 aspect-square"
+                            />
+                            <p>Pause</p>
+                          </>
+                        ) : (
+                          <>
+                            <PlayIcon
+                              aria-hidden="true"
+                              className="w-5 aspect-square"
+                            />
+                            <p>Play</p>
+                          </>
+                        )}
+                      </button>
+                      <button
+                        aria-label="add to my list"
+                        className="bg-gray-700 rounded-full w-7 aspect-square grid place-items-center ring-1 ring-white hover:opacity-90 active:opacity-100 transition-opacity"
+                      >
+                        <PlusIcon
+                          aria-hidden="true"
+                          className="w-5 aspect-square text-white"
+                        />
+                      </button>
+                      <button
+                        aria-label="thumb up"
+                        className="bg-gray-700 rounded-full w-7 aspect-square grid place-items-center ring-1 ring-white hover:opacity-90 active:opacity-100 transition-opacity"
+                      >
+                        <HandThumbUpIcon
+                          aria-hidden="true"
+                          className="w-4 aspect-square text-white"
+                        />
+                      </button>
+                    </div>
+                    <button
+                      aria-label="toggle audio"
+                      className="bg-gray-700 rounded-full w-7 aspect-square grid place-items-center ring-1 ring-white hover:opacity-90 active:opacity-100 transition-opacity"
+                      onClick={() => setIsMuted(!isMuted)}
+                    >
+                      {isMuted ? (
+                        <SpeakerXMarkIcon
+                          aria-hidden="true"
+                          className="w-4 aspect-square text-white"
+                        />
+                      ) : (
+                        <SpeakerWaveIcon
+                          aria-hidden="true"
+                          className="w-4 aspect-square text-white"
+                        />
+                      )}
+                    </button>
+                  </div>
                 </div>
-                <ReactPlayer
-                  url={`https://www.youtube.com/watch?v=${trailer}`}
-                  width="100%"
-                  height="100%"
-                />
+                <div className="mx-6 my-7 grid gap-2">
+                  <Dialog.Title
+                    as="h1"
+                    className="text-lg md:text-xl font-medium leading-6 text-white"
+                  >
+                    {movie?.title ?? movie?.name}
+                  </Dialog.Title>
+                  <div className="text-xs md:text-sm flex items-center space-x-2">
+                    <p className=" text-green-600">
+                      {Number(movie?.vote_average) * 10 ?? "-"}% Match
+                    </p>
+                    <p>{movie?.release_date ?? "-"}</p>
+                    <p>{movie?.original_language.toUpperCase() ?? "-"}</p>
+                  </div>
+                  <p className="text-xs md:text-sm">{movie?.overview ?? "-"}</p>
+                  <div className="text-xs md:text-sm flex items-center gap-2">
+                    <span className="text-gray-400">Genres:</span>
+                    {genres.map((genre) => genre.name).join(", ")}
+                  </div>
+                  <div className="text-xs md:text-sm flex items-center gap-2">
+                    <span className="text-gray-400">Total Votes:</span>
+                    {movie?.vote_count ?? "-"}
+                  </div>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

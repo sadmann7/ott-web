@@ -37,7 +37,9 @@ const Hero = ({ movies }: HeroProps) => {
           <div className="absolute inset-0 -z-10 w-full h-screen">
             <div className="z-10 absolute inset-0 w-full h-full bg-black/75 bg-gradient-body from-gray-900/10 to-[#010511]" />
             <Image
-              src={`https://image.tmdb.org/t/p/original/${randomMovie?.poster_path}`}
+              src={`https://image.tmdb.org/t/p/original/${
+                randomMovie?.poster_path || randomMovie?.backdrop_path
+              }`}
               alt={randomMovie?.title ?? "poster"}
               className="object-cover"
               fill
@@ -49,13 +51,15 @@ const Hero = ({ movies }: HeroProps) => {
               {randomMovie?.title ?? randomMovie?.name}
             </h1>
             <div className="flex space-x-2 text-xs md:text-sm font-semibold">
-              <p className="text-green-600 ">
-                {randomMovie?.vote_average} Ratings
+              <p className="text-green-600">
+                {randomMovie?.vote_average * 10 ?? "-"}% Match
               </p>
-              <p className="text-gray-300">{randomMovie?.release_date}</p>
+              <p className="text-gray-300">
+                {randomMovie?.release_date ?? "-"}
+              </p>
             </div>
             <p className="text-gray-300 text-sm md:text-base line-clamp-4">
-              {randomMovie?.overview}
+              {randomMovie?.overview ?? "-"}
             </p>
             <div className="pt-1.5 flex items-center space-x-2">
               <button
